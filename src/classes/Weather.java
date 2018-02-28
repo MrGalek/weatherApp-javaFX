@@ -3,7 +3,7 @@ package classes;
 public class Weather {
 	
 	String city;
-	int temperature;
+	double temperature;
 	boolean unit;
 	int graph;
 	
@@ -15,11 +15,11 @@ public class Weather {
 		this.city = city;
 	}
 
-	public int getTemperature() {
+	public double getTemperature() {
 		return temperature;
 	}
 
-	public void setTemperature(int temperature) {
+	public void setTemperature(double temperature) {
 		this.temperature = temperature;
 	}
 
