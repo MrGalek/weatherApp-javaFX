@@ -2,10 +2,9 @@ package classes;
 
 public class Weather {
 	
-	String city;
-	double temperature;
-	boolean unit;
-	int graph;
+	private String city;
+	private double temperature;
+	private String conditions;
 	
 	public String getCity() {
 		return city;
@@ -23,20 +22,12 @@ public class Weather {
 		this.temperature = temperature;
 	}
 
-	public boolean isUnit() {
-		return unit;
+	public String getConditions() {
+		return conditions;
 	}
 
-	public void setUnit(boolean unit) {
-		this.unit = unit;
-	}
-
-	public int getGraph() {
-		return graph;
-	}
-
-	public void setGraph(int graph) {
-		this.graph = graph;
+	public void setConditions(String conditions) {
+		this.conditions = conditions;
 	}
 		
 }

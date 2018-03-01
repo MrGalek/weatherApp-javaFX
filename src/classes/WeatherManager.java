@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -26,7 +27,8 @@ public class WeatherManager {
 		weather = new Weather();
 		try {
 			String response = apiRequest(cityName);
-			weather.temperature = parseTemeprature(response);
+			weather.setTemperature(parseTemeprature(response));
+			weather.setConditions(parseConditions(response));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -34,10 +36,10 @@ public class WeatherManager {
 		
 		return weather;
 	}
-	
+
 	private String apiRequest(String cityName) throws IOException
 	{
-		 StringBuilder result = new StringBuilder();
+		  StringBuilder result = new StringBuilder();
 	      URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+cityName+"&appid=c07b23c6584c703e30f3b92802e0a6b7&lang=pl&units=metric");
 	      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	      conn.setRequestMethod("GET");
@@ -52,14 +54,28 @@ public class WeatherManager {
 	
 	private double parseTemeprature(String json) throws ParseException
 	{
-		System.out.println(json);
 		Object obj = parser.parse(json);
 		
 		jsonObject = (JSONObject) obj;
 		obj = parser.parse(jsonObject.get("main").toString());
-
+		
 		jsonObject = (JSONObject) obj;
-		double temperature = Double.parseDouble(jsonObject.get("temp").toString());
-		return temperature;
+		return Double.parseDouble(jsonObject.get("temp").toString());
+	}
+	
+	private String parseConditions(String json) throws ParseException 
+	{	
+		Object obj = parser.parse(json);
+		
+		jsonObject = (JSONObject) obj;
+		obj = parser.parse(jsonObject.get("weather").toString());  
+		
+		JSONArray array = (JSONArray) obj;
+		obj = parser.parse(array.get(0).toString());
+		
+		jsonObject = (JSONObject) obj;
+		return jsonObject.get("main").toString();
+
+		
 	}
 }
