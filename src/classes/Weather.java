@@ -5,6 +5,7 @@ public class Weather {
 	private String city;
 	private double temperature;
 	private String conditions;
+	private String icon;
 	
 	public String getCity() {
 		return city;
@@ -28,6 +29,14 @@ public class Weather {
 
 	public void setConditions(String conditions) {
 		this.conditions = conditions;
+	}
+	
+	public String getIcon() {
+		return icon;
+	}
+	
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 		
 }

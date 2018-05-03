@@ -29,6 +29,7 @@ public class WeatherManager {
 			String response = apiRequest(cityName);
 			weather.setTemperature(parseTemeprature(response));
 			weather.setConditions(parseConditions(response));
+			weather.setIcon(parseIcon(response));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -77,5 +78,19 @@ public class WeatherManager {
 		return jsonObject.get("main").toString();
 
 		
+	}
+	
+	private String parseIcon(String json) throws ParseException
+	{
+	Object obj = parser.parse(json);
+		
+		jsonObject = (JSONObject) obj;
+		obj = parser.parse(jsonObject.get("weather").toString());  
+		
+		JSONArray array = (JSONArray) obj;
+		obj = parser.parse(array.get(0).toString());
+		
+		jsonObject = (JSONObject) obj;
+		return jsonObject.get("icon").toString();
 	}
 }
