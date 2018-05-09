@@ -8,6 +8,8 @@ import org.json.simple.parser.ParseException;
 import classes.Weather;
 import classes.WeatherManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -70,7 +72,8 @@ public class WindowController {
 		
 	} 	
 	 	@FXML
-	 	void showWeather(MouseEvent event) throws ParseException {
+	 	void showWeather(MouseEvent event) {
+	 		try {
 	 		Weather weather;
 	 		if(byZipCode.isSelected()) {
 	 			weather = weatherManager.getWeather(prefixTF.getText(), zipCodeTF.getText());
@@ -83,5 +86,23 @@ public class WindowController {
 	 		
 			temperatureLabel.setText(String.valueOf(weather.getTemperature())+(char)176+"C");
 			weatherGraph.setImage(new Image("http://openweathermap.org/img/w/"+ weather.getIcon() +".png"));
+	 		}catch(Exception e) {
+	 			Alert alert = new Alert(AlertType.ERROR);
+	 			alert.setTitle("Nie znaleziono miasta");
+	 			if(byCity.isSelected()) alert.setHeaderText("Nie znaleziono miasta o podanej nazwie.");
+	 			else alert.setHeaderText("Nie znaleziono miasta o podanym kodzie pocztowym.");
+	 			alert.setContentText("Sprawdź czy poprawnie wprowadziles dane. ");
+	 			alert.showAndWait();
+	 			resetWeather();
+	 			
+	 		}
+	 	}
+	 	
+	 	void resetWeather() {
+	 		cityTF.setText("Aleksandrów Łódzki");
+	 		prefixTF.setText("pl");
+	 		zipCodeTF.setText("95-070");
+	 		showWeather(null);
+	 		
 	 	}
 }
